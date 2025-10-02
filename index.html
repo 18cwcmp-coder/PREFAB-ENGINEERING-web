@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PREFAB ENGINEERING</title>
+<style>
+:root{ --ink:#fff; --bg:#0b0b0b; --muted:#c9c9c9; --border:#1f2937;
+       --logo-w:260px; --logo-h:88px; --logo-d:2px; }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Inter,Roboto;overflow-x:hidden}
+a{color:#fff;text-decoration:none}
+a:hover{text-decoration:underline}
+
+header{position:sticky;top:0;background:#000000f0;backdrop-filter:blur(4px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+nav li{cursor:pointer;font-weight:600}
+.tab-content{display:none;padding:36px 20px;max-width:1200px;margin:auto}
+.active{display:block}
+
+/* Rotating logo */
+.spin-logo{width:var(--logo-w);height:var(--logo-h);perspective:1200px}
+.cuboid{width:100%;height:100%;transform-style:preserve-3d;animation:spin 8s linear infinite}
+.cuboid .face{position:absolute;width:100%;height:100%;backface-visibility:hidden}
+.front{transform:translateZ(calc(var(--logo-d)/2))}
+.back{transform:rotateY(180deg) translateZ(calc(var(--logo-d)/2))}
+.face img{width:100%;height:100%;object-fit:contain;background:transparent}
+@keyframes spin{to{transform:rotateY(360deg)}}
+
+/* Background crossfade */
+#bgA,#bgB{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;
+  opacity:.62;transition:opacity 1.8s ease;filter:contrast(115%) brightness(85%);pointer-events:none}
+#bgB{z-index:-3}
+#scrim{position:fixed;inset:0;background:radial-gradient(1200px 560px at 50% -10%, rgba(0,0,0,.10), rgba(0,0,0,.70) 65%);z-index:-1;pointer-events:none}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1.2fr 1.8fr;gap:20px;align-items:start}
+.about-photo{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#00000066;min-height:420px}
+.about-photo img{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:1024px){.about-grid{grid-template-columns:1fr} .about-photo{min-height:360px} }
+.card{background:#00000066;border:1px solid var(--border);border-radius:12px;padding:16px}
+
+/* Gallery */
+.gallery-wrap{max-width:1200px;margin:auto}
+.slide{height:60vh;min-height:380px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0f0f10}
+.slide img{width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.controls{display:flex;align-items:center;gap:12px;margin-top:12px}
+.btn{all:unset;display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--border);background:#ffffff10;border-radius:10px;cursor:pointer}
+.muted{color:var(--muted)}
+
+/* Design (image slideshow with watermark) */
+.design-wrap{max-width:1200px;margin:auto}
+.design-stage{position:relative;height:72vh;min-height:520px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#111}
+.design-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111}
+.watermark-tiles{position:absolute;inset:0;pointer-events:none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 2px, transparent 2px 180px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,.18) 0 2px, transparent 2px 180px);
+  mix-blend-mode:overlay}
+.watermark-tiles::before{
+  content:"PREFAB ENGINEERING – CONFIDENTIAL \00A0 PREFAB ENGINEERING – CONFIDENTIAL";
+  position:absolute;inset:-200px;
+  font-size:38px;font-weight:800;letter-spacing:.2em;
+  color:rgba(255,255,255,.16);transform:rotate(-30deg);
+  display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.design-controls{display:flex;gap:12px;align-items:center;margin-top:12px}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div id="bgA"></div><div id="bgB"></div><div id="scrim"></div>
+
+<header>
+  <div class="spin-logo">
+    <div class="cuboid">
+      <div class="face front"><img src="assets/logo_black.jpg" alt="Prefab Engineering black"></div>
+      <div class="face back"><img src="assets/logo_white.jpg" alt="Prefab Engineering white"></div>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li onclick="showTab('about')">About</li>
+      <li onclick="showTab('work')">What We Do</li>
+      <li onclick="showTab('history')">History</li>
+      <li onclick="showTab('gallery')">Gallery</li>
+      <li onclick="showTab('clients')">Clients</li>
+      <li onclick="showTab('design')">Design</li>
+      <li onclick="showTab('careers')">Careers</li>
+      <li onclick="showTab('contact')">Contact</li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div id="about" class="tab-content active">
+    <h2>About</h2>
+    <div class="about-grid">
+      <div class="card">
+        <p><strong>Prefab Engineering</strong> delivers advanced pipework fabrication for HVAC and Fire projects across Victoria, offering end-to-end services from pipework design through to manufacture.</p>
+        <p>Our facility features robotic plasma cutting and robotic welding, enabling high-volume production with certified weld quality. With over 10 years of experience in delivering modular pipework, ductwork, and plantroom equipment, we provide proven prefabrication solutions that <strong>reduce project risk, minimise onsite labour, and accelerate installation programs.</strong></p>
+        <p>By combining prefabrication expertise with detailed design, structural, and seismic engineering, we ensure all work is fully certified and compliant to the highest standards. Clients benefit from <strong>fewer site clashes, faster project handover, and predictable project costs.</strong></p>
+        <p>Production and assembly are carried out in a a controlled environment, ensuring <strong>consistent quality, improved safety outcomes, and minimal disruption on active construction sites.</strong></p>
+        <p>We are ISO 9001 • 45001 • 14001 certified.<br/>Located at 38 Enterprise Way, Sunshine West.</p>
+      </div>
+      <div class="about-photo"><img src="assets/gallery_7.jpg" alt="Facility & skid on truck"></div>
+    </div>
+  </div>
+
+  <div id="work" class="tab-content"><h2>What We Do</h2>
+    <ul>
+      <li>Pipework for HVAC and Fire Services</li>
+      <li>Prefabricated Pump and Heat Exchanger Skids</li>
+      <li>Fan Assemblies and Ductwork Risers</li>
+      <li>Steel Plant Platforms and Prefab Plantrooms</li>
+      <li>Welding certification, pressure testing, crane lift studies</li>
+      <li>Digital drafting in Revit, AutoCAD, Navisworks, Revizto, 3ds Max</li>
+    </ul>
+  </div>
+
+  <div id="history" class="tab-content"><h2>History</h2>
+    <p>Established in 1997, our pipe shop has operated under OD Engineering through Footscray (Methan St), Port Melbourne, Laverton and now Sunshine West — evolving into a highly automated prefab facility.</p>
+  </div>
+
+  <div id="gallery" class="tab-content">
+    <div class="gallery-wrap">
+      <h2>Gallery</h2>
+      <div class="slide"><img id="gimg" alt="Prefab gallery image"></div>
+      <div class="controls">
+        <button class="btn" id="prev">◀ Prev</button>
+        <button class="btn" id="next">Next ▶</button>
+        <span class="muted" id="gcap">1 / 14</span>
+      </div>
+      <p class="muted">Zoom/drag disabled.</p>
+    </div>
+  </div>
+
+  <div id="clients" class="tab-content"><h2>Clients</h2>
+    <p>Our client and project list is extensive, and full details can be provided on request.<br/>
+    Due to the sensitive nature of the work we undertake, all client information and project details are treated with strict confidentiality.</p>
+    <ul>
+      <li>We have delivered pipework for the majority of buildings across the Melbourne skyline.</li>
+      <li>We are heavily involved in Data Centres and Critical Infrastructure projects.</li>
+      <li>We have an extensive track record in Healthcare, with prefabrication solutions supporting major Hospital projects.</li>
+    </ul>
+  </div>
+
+  <div id="design" class="tab-content">
+    <h2>Design Drawings — Protected Slideshow</h2>
+    <div class="design-wrap">
+      <div class="design-stage">
+        <img id="dimg" alt="Design slide">
+        <div class="watermark-tiles"></div>
+      </div>
+      <div class="design-controls">
+        <button class="btn" id="dprev">◀ Prev</button>
+        <button class="btn" id="dnext">Next ▶</button>
+        <span class="muted" id="dcap">1 / 9</span>
+      </div>
+      <p class="muted">Preview only. Downloading and right‑click disabled.</p>
+    </div>
+  </div>
+
+  <div id="careers" class="tab-content"><h2>Careers</h2>
+    <p>We’re hiring <strong>Welders, Fabricators, Designers and Draftsmen</strong>. Send your CV to <a href="mailto:careers@prefab-eng.com.au">careers@prefab-eng.com.au</a>.</p>
+    <p>We’re always looking for <strong>hard‑working, innovative people</strong> to join our successful business. We value initiative, problem‑solving and a commitment to quality, and offer opportunities to work with advanced fabrication technology on high‑profile projects across Victoria.</p>
+    <p>If you’re ready to contribute to a team that’s shaping the future of prefabrication, we’d love to hear from you.</p>
+  </div>
+
+  <div id="contact" class="tab-content"><h2>Contact</h2>
+    <p><strong>Rocco Morda</strong> — Operations Production Manager<br>03 9314 5737 | <a href="tel:+61419349450">0419 349 450</a><br><a href="mailto:rocco.morda@prefab-eng.com.au">rocco.morda@prefab-eng.com.au</a></p>
+    <p><strong>Steven Petralia</strong> — Production Manager<br>03 9314 5737 | <a href="tel:+61428545633">0428 545 633</a><br><a href="mailto:steven.petralia@prefab-eng.com.au">steven.petralia@prefab-eng.com.au</a></p>
+    <p>Location: 38 Enterprise Way, Sunshine West</p>
+  </div>
+</main>
+
+<footer style="padding:18px 20px;color:var(--muted);border-top:1px solid var(--border);text-align:center">
+  © <span id="year"></span> Prefab Engineering — prefab-eng.com.au
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// GALLERY autoplay
+const imgs=[
+  'assets/gallery_1.jpg','assets/gallery_2.jpg','assets/gallery_3.jpg','assets/gallery_4.jpg','assets/gallery_5.jpg','assets/gallery_6.jpg','assets/gallery_7.jpg',
+  'assets/gallery_8.jpg','assets/gallery_10.jpg','assets/gallery_11.jpg','assets/gallery_12.jpg','assets/gallery_13.jpg','assets/gallery_14.jpg','assets/gallery_15.jpg'
+];
+const g=document.getElementById('gimg');const cap=document.getElementById('gcap');let gi=0;
+function setImg(n){gi=(n+imgs.length)%imgs.length;g.onerror=()=>{g.alt='(Image failed to load)';};g.src=imgs[gi];cap.textContent=(gi+1)+' / '+imgs.length;}
+document.getElementById('prev').onclick=()=>setImg(gi-1);
+document.getElementById('next').onclick=()=>setImg(gi+1);
+setImg(0);
+setInterval(()=>setImg(gi+1),6000);
+
+// GLOBAL BG crossfade
+let bi=1;
+const bgA=document.getElementById('bgA'); const bgB=document.getElementById('bgB');
+bgA.style.backgroundImage=`url('${imgs[0]}')`; bgA.style.opacity=.62; bgB.style.opacity=0;
+function fadeBackground(){
+  const next = imgs[bi % imgs.length];
+  if(bi % 2 === 1){ bgB.style.backgroundImage=`url('${next}')`; bgB.style.opacity=.62; bgA.style.opacity=0; }
+  else{ bgA.style.backgroundImage=`url('${next}')`; bgA.style.opacity=.62; bgB.style.opacity=0; }
+  bi++;
+}
+setInterval(fadeBackground,7000);
+
+// DESIGN slideshow
+const dimgs=['assets/design_01.jpg','assets/design_02.jpg','assets/design_03.jpg','assets/design_04.jpg','assets/design_05.jpg','assets/design_06.jpg','assets/design_07.jpg','assets/design_08.jpg','assets/design_09.jpg'];
+const d=document.getElementById('dimg');const dcap=document.getElementById('dcap');let di=0;
+function setD(n){di=(n+dimgs.length)%dimgs.length;d.src=dimgs[di];dcap.textContent=(di+1)+' / '+dimgs.length;}
+document.getElementById('dprev').onclick=()=>setD(di-1);
+document.getElementById('dnext').onclick=()=>setD(di+1);
+setD(0);
+setInterval(()=>setD(di+1),5000);
+
+// Disable right-click globally
+document.addEventListener('contextmenu', e=>e.preventDefault());
+</script>
+</body></html>
