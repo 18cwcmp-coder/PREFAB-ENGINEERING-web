@@ -5,22 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>PREFAB ENGINEERING</title>
 <style>
-:root{ --ink:#fff; --bg:#0b0b0b; --muted:#c9c9c9; --border:#1f2937;
-       --logo-w:260px; --logo-h:88px; --logo-d:2px; }
+:root{
+  --ink:#fff; --bg:#0b0b0b; --muted:#c9c9c9; --border:#1f2937;
+  --logo-w:260px; --logo-h:88px; --logo-d:2px;
+  --wm-tile: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22360%22%20height%3D%22360%22%20viewBox%3D%220%200%20360%20360%22%3E%0A%20%20%3Crect%20width%3D%22360%22%20height%3D%22360%22%20fill%3D%22none%22/%3E%0A%20%20%3Cg%20transform%3D%22translate%28180%2C180%29%20rotate%28-30%29%22%3E%0A%20%20%20%20%3Ctext%20x%3D%22-420%22%20y%3D%22-60%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2222%22%20fill%3D%22rgba%28200%2C200%2C200%2C0.22%29%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EPREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%22-420%22%20y%3D%220%22%20%20%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2222%22%20fill%3D%22rgba%28200%2C200%2C200%2C0.22%29%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EPREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%22-420%22%20y%3D%2260%22%20%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2222%22%20fill%3D%22rgba%28200%2C200%2C200%2C0.22%29%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EPREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%20%20PREFAB%20ENGINEERING%20%E2%80%A2%20CONFIDENTIAL%3C/text%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E');
+}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Inter,Roboto;overflow-x:hidden}
 a{color:#fff;text-decoration:none}
 a:hover{text-decoration:underline}
 
-header{position:sticky;top:0;background:#000000f0;backdrop-filter:blur(4px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+header{position:sticky;top:0;background:#000000f0;backdrop-filter:blur(6px);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);z-index:10}
 nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
-nav li{cursor:pointer;font-weight:600}
-.tab-content{display:none;padding:36px 20px;max-width:1200px;margin:auto}
+nav li{cursor:pointer;font-weight:600;white-space:nowrap}
+/* Mobile menu */
+#menuBtn{display:none;border:1px solid var(--border);background:#111;padding:8px 10px;border-radius:8px}
+#drawer{position:fixed;inset:0;background:#000e;backdrop-filter:blur(6px);display:none;z-index:20}
+#drawerInner{position:absolute;top:0;right:0;width:82vw;max-width:380px;height:100%;background:#0c0c0c;border-left:1px solid var(--border);padding:18px;display:flex;flex-direction:column;gap:12px}
+#drawer a{padding:12px 10px;border:1px solid var(--border);border-radius:10px;background:#ffffff10;text-decoration:none;font-weight:700}
+
+.tab-content{display:none;padding:28px 16px;max-width:1200px;margin:auto}
 .active{display:block}
 
-/* Rotating logo */
-.spin-logo{width:var(--logo-w);height:var(--logo-h);perspective:1200px}
+.spin-logo{width:var(--logo-w);height:var(--logo-h);perspective:1200px;flex-shrink:0}
 .cuboid{width:100%;height:100%;transform-style:preserve-3d;animation:spin 8s linear infinite}
 .cuboid .face{position:absolute;width:100%;height:100%;backface-visibility:hidden}
 .front{transform:translateZ(calc(var(--logo-d)/2))}
@@ -34,50 +42,56 @@ nav li{cursor:pointer;font-weight:600}
 #bgB{z-index:-3}
 #scrim{position:fixed;inset:0;background:radial-gradient(1200px 560px at 50% -10%, rgba(0,0,0,.10), rgba(0,0,0,.70) 65%);z-index:-1;pointer-events:none}
 
-/* About */
+/* Cards & grid */
+.card{background:#00000066;border:1px solid var(--border);border-radius:12px;padding:16px}
 .about-grid{display:grid;grid-template-columns:1.2fr 1.8fr;gap:20px;align-items:start}
 .about-photo{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#00000066;min-height:420px}
 .about-photo img{display:block;width:100%;height:100%;object-fit:cover}
-@media (max-width:1024px){.about-grid{grid-template-columns:1fr} .about-photo{min-height:360px} }
-.card{background:#00000066;border:1px solid var(--border);border-radius:12px;padding:16px}
+
+/* Watermark overlay */
+.wm{position:absolute;inset:0;pointer-events:none;background-image:var(--wm-tile);background-repeat:repeat;background-size:360px 360px;opacity:.7;mix-blend-mode:overlay}
 
 /* Gallery */
 .gallery-wrap{max-width:1200px;margin:auto}
-.slide{height:60vh;min-height:380px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0f0f10}
-.slide img{width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.slide{position:relative;height:60vh;min-height:360px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0f0f10}
+.slide img{width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none;opacity:.9}
 .controls{display:flex;align-items:center;gap:12px;margin-top:12px}
 .btn{all:unset;display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--border);background:#ffffff10;border-radius:10px;cursor:pointer}
 .muted{color:var(--muted)}
 
-/* Design (image slideshow with watermark) */
+/* Design */
 .design-wrap{max-width:1200px;margin:auto}
 .design-stage{position:relative;height:72vh;min-height:520px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#111}
-.design-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111}
-.watermark-tiles{position:absolute;inset:0;pointer-events:none;
-  background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 2px, transparent 2px 180px),
-    repeating-linear-gradient(-45deg, rgba(0,0,0,.18) 0 2px, transparent 2px 180px);
-  mix-blend-mode:overlay}
-.watermark-tiles::before{
-  content:"PREFAB ENGINEERING – CONFIDENTIAL \00A0 PREFAB ENGINEERING – CONFIDENTIAL";
-  position:absolute;inset:-200px;
-  font-size:38px;font-weight:800;letter-spacing:.2em;
-  color:rgba(255,255,255,.16);transform:rotate(-30deg);
-  display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.design-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111;opacity:.9}
 .design-controls{display:flex;gap:12px;align-items:center;margin-top:12px}
+
+/* Responsive tweaks */
+@media (max-width:1024px){
+  .about-grid{grid-template-columns:1fr}
+  .about-photo{min-height:300px}
+}
+@media (max-width:780px){
+  :root{--logo-w:180px; --logo-h:64px}
+  nav ul{display:none}   /* hide desktop tabs */
+  #menuBtn{display:inline-flex;gap:8px;align-items:center;color:#fff}
+  header{padding:10px 12px}
+  .tab-content{padding:20px 14px}
+  .slide{height:48vh;min-height:280px}
+  .design-stage{height:60vh;min-height:360px}
+}
 </style>
 </head>
 <body oncontextmenu="return false;">
 <div id="bgA"></div><div id="bgB"></div><div id="scrim"></div>
 
 <header>
-  <div class="spin-logo">
+  <div class="spin-logo" aria-label="Prefab Engineering rotating logo">
     <div class="cuboid">
       <div class="face front"><img src="assets/logo_black.jpg" alt="Prefab Engineering black"></div>
       <div class="face back"><img src="assets/logo_white.jpg" alt="Prefab Engineering white"></div>
     </div>
   </div>
-  <nav>
+  <nav aria-label="Primary">
     <ul>
       <li onclick="showTab('about')">About</li>
       <li onclick="showTab('work')">What We Do</li>
@@ -89,7 +103,23 @@ nav li{cursor:pointer;font-weight:600}
       <li onclick="showTab('contact')">Contact</li>
     </ul>
   </nav>
+  <button id="menuBtn" aria-controls="drawer" aria-expanded="false">☰ Menu</button>
 </header>
+
+<!-- Mobile drawer -->
+<div id="drawer" aria-hidden="true">
+  <div id="drawerInner">
+    <a href="#about" onclick="openTabFromDrawer('about')">About</a>
+    <a href="#work" onclick="openTabFromDrawer('work')">What We Do</a>
+    <a href="#history" onclick="openTabFromDrawer('history')">History</a>
+    <a href="#gallery" onclick="openTabFromDrawer('gallery')">Gallery</a>
+    <a href="#clients" onclick="openTabFromDrawer('clients')">Clients</a>
+    <a href="#design" onclick="openTabFromDrawer('design')">Design</a>
+    <a href="#careers" onclick="openTabFromDrawer('careers')">Careers</a>
+    <a href="#contact" onclick="openTabFromDrawer('contact')">Contact</a>
+    <div style="margin-top:auto;color:#9aa">© <span id="yearA"></span> PREFAB</div>
+  </div>
+</div>
 
 <main>
   <div id="about" class="tab-content active">
@@ -99,7 +129,7 @@ nav li{cursor:pointer;font-weight:600}
         <p><strong>Prefab Engineering</strong> delivers advanced pipework fabrication for HVAC and Fire projects across Victoria, offering end-to-end services from pipework design through to manufacture.</p>
         <p>Our facility features robotic plasma cutting and robotic welding, enabling high-volume production with certified weld quality. With over 10 years of experience in delivering modular pipework, ductwork, and plantroom equipment, we provide proven prefabrication solutions that <strong>reduce project risk, minimise onsite labour, and accelerate installation programs.</strong></p>
         <p>By combining prefabrication expertise with detailed design, structural, and seismic engineering, we ensure all work is fully certified and compliant to the highest standards. Clients benefit from <strong>fewer site clashes, faster project handover, and predictable project costs.</strong></p>
-        <p>Production and assembly are carried out in a a controlled environment, ensuring <strong>consistent quality, improved safety outcomes, and minimal disruption on active construction sites.</strong></p>
+        <p>Production and assembly are carried out in a controlled environment, ensuring <strong>consistent quality, improved safety outcomes, and minimal disruption on active construction sites.</strong></p>
         <p>We are ISO 9001 • 45001 • 14001 certified.<br/>Located at 38 Enterprise Way, Sunshine West.</p>
       </div>
       <div class="about-photo"><img src="assets/gallery_7.jpg" alt="Facility & skid on truck"></div>
@@ -124,13 +154,16 @@ nav li{cursor:pointer;font-weight:600}
   <div id="gallery" class="tab-content">
     <div class="gallery-wrap">
       <h2>Gallery</h2>
-      <div class="slide"><img id="gimg" alt="Prefab gallery image"></div>
+      <div class="slide">
+        <img id="gimg" alt="Prefab gallery image">
+        <div class="wm"></div>
+      </div>
       <div class="controls">
         <button class="btn" id="prev">◀ Prev</button>
         <button class="btn" id="next">Next ▶</button>
         <span class="muted" id="gcap">1 / 14</span>
       </div>
-      <p class="muted">Zoom/drag disabled.</p>
+      <p class="muted">Preview only. Right‑click and drag disabled.</p>
     </div>
   </div>
 
@@ -149,7 +182,7 @@ nav li{cursor:pointer;font-weight:600}
     <div class="design-wrap">
       <div class="design-stage">
         <img id="dimg" alt="Design slide">
-        <div class="watermark-tiles"></div>
+        <div class="wm"></div>
       </div>
       <div class="design-controls">
         <button class="btn" id="dprev">◀ Prev</button>
@@ -179,11 +212,30 @@ nav li{cursor:pointer;font-weight:600}
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('yearA').textContent = new Date().getFullYear();
 
 function showTab(id){
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
 }
+function openTabFromDrawer(id){
+  showTab(id); toggleDrawer(false);
+}
+
+// Mobile drawer logic
+const menuBtn=document.getElementById('menuBtn');
+const drawer = document.getElementById('drawer');
+menuBtn.addEventListener('click', ()=>{
+  const isOpen = drawer.style.display==='block';
+  toggleDrawer(!isOpen);
+});
+function toggleDrawer(open){
+  drawer.style.display = open ? 'block' : 'none';
+  menuBtn.setAttribute('aria-expanded', open);
+  drawer.setAttribute('aria-hidden', !open);
+}
+drawer.addEventListener('click', (e)=>{ if(e.target===drawer) toggleDrawer(false); });
 
 // GALLERY autoplay
 const imgs=[
@@ -197,7 +249,7 @@ document.getElementById('next').onclick=()=>setImg(gi+1);
 setImg(0);
 setInterval(()=>setImg(gi+1),6000);
 
-// GLOBAL BG crossfade
+// GLOBAL background crossfade
 let bi=1;
 const bgA=document.getElementById('bgA'); const bgB=document.getElementById('bgB');
 bgA.style.backgroundImage=`url('${imgs[0]}')`; bgA.style.opacity=.62; bgB.style.opacity=0;
@@ -209,7 +261,7 @@ function fadeBackground(){
 }
 setInterval(fadeBackground,7000);
 
-// DESIGN slideshow
+// DESIGN slideshow autoplay
 const dimgs=['assets/design_01.jpg','assets/design_02.jpg','assets/design_03.jpg','assets/design_04.jpg','assets/design_05.jpg','assets/design_06.jpg','assets/design_07.jpg','assets/design_08.jpg','assets/design_09.jpg'];
 const d=document.getElementById('dimg');const dcap=document.getElementById('dcap');let di=0;
 function setD(n){di=(n+dimgs.length)%dimgs.length;d.src=dimgs[di];dcap.textContent=(di+1)+' / '+dimgs.length;}
@@ -218,7 +270,7 @@ document.getElementById('dnext').onclick=()=>setD(di+1);
 setD(0);
 setInterval(()=>setD(di+1),5000);
 
-// Disable right-click globally
+// Disable right-click
 document.addEventListener('contextmenu', e=>e.preventDefault());
 </script>
 </body></html>
